@@ -1,0 +1,1 @@
+.\build.ps1 -Configurations Release -Platforms x64,"any cpu"
