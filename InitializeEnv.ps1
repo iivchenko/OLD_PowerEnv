@@ -1,3 +1,9 @@
+<# 
+	Copyright (c) 2016 by Shogun, All Right Reserved
+	Author: Ivan Ivchenko
+	Email: iivchenko@live.com
+#>
+
 Clear-Host
 
 Write-Host "`nCopyright (c) 2016 by Shogun, All Right Reserved`nDon't be shy just enjoy with PowerEnv =)`n" -ForegroundColor Green
