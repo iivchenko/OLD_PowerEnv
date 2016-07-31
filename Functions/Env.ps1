@@ -1,4 +1,4 @@
-﻿function ConfigPath
+﻿function global:ConfigPath
 {
     return (Get-Item $PSScriptRoot).Parent.FullName + "\PowerEnv.config"
 }
@@ -21,7 +21,7 @@
 
     Writes property with the name 'age' and value '55'
 #>
-function Env-Write 
+function global:Env-Write 
 {
     Param
     (
@@ -70,7 +70,7 @@ function Env-Write
 
     Reads value of the property 'age'
 #>
-function Env-Read 
+function global:Env-Read 
 {
     Param
     (
