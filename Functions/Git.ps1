@@ -1,9 +1,9 @@
-function Git-GetPath
+function global:Git-GetPath
 {
     return Env-Read -Property GitExePath
 }
 
-function Git-SetPath
+function global:Git-SetPath
 {
     Param
     (
@@ -18,7 +18,7 @@ function Git-SetPath
 .SYNOPSIS    
     Run git commands on specified paths. If paths are not specified all directories from the execution paths will be used.
 #>
-function Git-DoAll
+function global:Git-DoAll
 {
 	Param
 	(

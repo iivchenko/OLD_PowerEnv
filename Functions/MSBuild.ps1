@@ -1,9 +1,9 @@
-﻿function MSBuild-GetPath
+﻿function global:MSBuild-GetPath
 {
     return Env-Read -Property MSBuildExePath
 }
 
-function MSBuild-SetPath
+function global:MSBuild-SetPath
 {
     Param
     (
