@@ -1,4 +1,10 @@
-﻿function global:ConfigPath
+﻿<# 
+	Copyright (c) 2016 by Shogun, All Right Reserved
+	Author: Ivan Ivchenko
+	Email: iivchenko@live.com
+#>
+
+function global:ConfigPath
 {
     return (Get-Item $PSScriptRoot).Parent.FullName + "\PowerEnv.config"
 }

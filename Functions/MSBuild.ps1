@@ -1,4 +1,10 @@
-﻿function global:MSBuild-GetPath
+﻿<# 
+	Copyright (c) 2016 by Shogun, All Right Reserved
+	Author: Ivan Ivchenko
+	Email: iivchenko@live.com
+#>
+
+function global:MSBuild-GetPath
 {
     return Env-Read -Property MSBuildExePath
 }
