@@ -26,6 +26,7 @@
              ConfigurableDirectory="PRODUCTFOLDER">
       <ComponentRef Id="EnvComponent" />
       <ComponentRef Id="InitializeEnvComponent" />
+      <ComponentRef Id="GitComponent" />
     </Feature>
 
   </Product>
@@ -49,9 +50,15 @@
     </DirectoryRef>
 
     <DirectoryRef Id="FUNCTIONS" FileSource ="..\PowerEnv\Functions\" DiskId='1'>
+      
       <Component Id="EnvComponent" Guid="F5193FA4-BC3D-4D60-843E-C9A4EFA163A9" KeyPath="yes">
         <File Id="Env.ps1" Name="Env.ps1"/>
       </Component>
+
+      <Component Id="GitComponent" Guid="D85FE3DF-3D5C-43CA-B6B7-4324404F419D" KeyPath="yes">
+        <File Id="Git.ps1" Name="Git.ps1"/>
+      </Component>
+      
     </DirectoryRef>
 
   </Fragment>
