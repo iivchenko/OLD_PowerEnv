@@ -24,25 +24,36 @@
              Description="Installs all powershell functions, scripts, modules etc."
              Level="1"
              ConfigurableDirectory="PRODUCTFOLDER">
+      <ComponentRef Id="EnvComponent" />
       <ComponentRef Id="InitializeEnvComponent" />
     </Feature>
-    
+
   </Product>
 
   <Fragment>
     <Directory Id="TARGETDIR" Name="SourceDir">
       <Directory Id="ProgramFilesFolder">
-        <Directory Id="PRODUCTFOLDER" Name="$(var.ProductName)"/>
+        <Directory Id="PRODUCTFOLDER" Name="$(var.ProductName)">
+          <Directory Id="FUNCTIONS" Name="Functions"/>
+        </Directory>
       </Directory>
     </Directory>
   </Fragment>
 
   <Fragment>
+
     <DirectoryRef Id="PRODUCTFOLDER" FileSource ="..\PowerEnv\" DiskId='1'>
       <Component Id="InitializeEnvComponent" Guid="A64822F4-12AC-4208-8C7A-4D588209DA93" KeyPath="yes">
         <File Id="InitializeEnv.ps1" Name="InitializeEnv.ps1"/>
       </Component>
     </DirectoryRef>
+
+    <DirectoryRef Id="FUNCTIONS" FileSource ="..\PowerEnv\Functions\" DiskId='1'>
+      <Component Id="EnvComponent" Guid="F5193FA4-BC3D-4D60-843E-C9A4EFA163A9" KeyPath="yes">
+        <File Id="Env.ps1" Name="Env.ps1"/>
+      </Component>
+    </DirectoryRef>
+
   </Fragment>
-  
+
 </Wix>
