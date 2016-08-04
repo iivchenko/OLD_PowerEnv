@@ -18,6 +18,23 @@
     <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
     <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
     <MediaTemplate EmbedCab="yes"/>
+
+    <Feature Id="PowerEnvFeature"
+             Title="Install everything"
+             Description="Installs all powershell functions, scripts, modules etc."
+             Level="1"
+             ConfigurableDirectory="PRODUCTFOLDER">
+    </Feature>
+    
+  
   </Product>
 
+  <Fragment>
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFilesFolder">
+        <Directory Id="PRODUCTFOLDER" Name="$(var.ProductName)"/>
+      </Directory>
+    </Directory>
+  </Fragment>
+  
 </Wix>
