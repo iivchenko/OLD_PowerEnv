@@ -1,30 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-	<Product Id="*" Name="PowerEnv.Installer" Language="1033" Version="1.0.0.0" Manufacturer="" UpgradeCode="da951f7c-0de1-4110-84c3-78678b4e6e65">
-		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
 
-		<MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
-		<MediaTemplate />
+  <?define ProductName="PowerEnv" ?>
+  <?define ProductVersion="1.0.0.0" ?>
+  <?define ProductCode="FC0D9C67-DE9C-40D3-892F-57CF5EA89BD6"?>
+  <?define UpgradeCode="0796F069-E912-4156-82C9-422D7848175D"?>
+  <?define Manufacturer="Shogun"?>
 
-		<Feature Id="ProductFeature" Title="PowerEnv.Installer" Level="1">
-			<ComponentGroupRef Id="ProductComponents" />
-		</Feature>
-	</Product>
+  <Product
+    Id="$(var.ProductCode)"
+    Name="$(var.ProductName)"
+    Language="1033"
+    Version="$(var.ProductVersion)"
+    Manufacturer="$(var.Manufacturer)"
+    UpgradeCode="$(var.UpgradeCode)">
 
-	<Fragment>
-		<Directory Id="TARGETDIR" Name="SourceDir">
-			<Directory Id="ProgramFilesFolder">
-				<Directory Id="INSTALLFOLDER" Name="PowerEnv.Installer" />
-			</Directory>
-		</Directory>
-	</Fragment>
+    <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
+    <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+    <MediaTemplate EmbedCab="yes"/>
+  </Product>
 
-	<Fragment>
-		<ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
-			<!-- TODO: Remove the comments around this Component element and the ComponentRef below in order to add resources to this installer. -->
-			<!-- <Component Id="ProductComponent"> -->
-				<!-- TODO: Insert files, registry keys, and other resources here. -->
-			<!-- </Component> -->
-		</ComponentGroup>
-	</Fragment>
 </Wix>
