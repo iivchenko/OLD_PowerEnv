@@ -19,6 +19,10 @@
     <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
     <MediaTemplate EmbedCab="yes"/>
 
+    <Icon Id="Icon.ico" SourceFile="Images\Icon.ico"/>
+
+    <Property Id="ARPPRODUCTICON" Value="Icon.ico" />
+
     <Feature Id="PowerEnvFeature"
              Title="Install everything"
              Description="Installs all powershell functions, scripts, modules etc."
