@@ -27,6 +27,7 @@
       <ComponentRef Id="EnvComponent" />
       <ComponentRef Id="InitializeEnvComponent" />
       <ComponentRef Id="GitComponent" />
+      <ComponentRef Id="MSBuildComponent" />
     </Feature>
 
   </Product>
@@ -57,6 +58,10 @@
 
       <Component Id="GitComponent" Guid="D85FE3DF-3D5C-43CA-B6B7-4324404F419D" KeyPath="yes">
         <File Id="Git.ps1" Name="Git.ps1"/>
+      </Component>
+
+      <Component Id="MSBuildComponent" Guid="E479C8D5-8742-4635-8302-C614382EB6A8" KeyPath="yes">
+        <File Id="MSBuild.ps1" Name="MSBuild.ps1"/>
       </Component>
       
     </DirectoryRef>
