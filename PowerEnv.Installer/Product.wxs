@@ -28,6 +28,7 @@
       <ComponentRef Id="InitializeEnvComponent" />
       <ComponentRef Id="GitComponent" />
       <ComponentRef Id="MSBuildComponent" />
+      <ComponentRef Id="AAComponent" />
     </Feature>
 
   </Product>
@@ -37,6 +38,7 @@
       <Directory Id="ProgramFilesFolder">
         <Directory Id="PRODUCTFOLDER" Name="$(var.ProductName)">
           <Directory Id="FUNCTIONS" Name="Functions"/>
+          <Directory Id="SCRIPTS" Name="Scripts"/>
         </Directory>
       </Directory>
     </Directory>
@@ -64,6 +66,15 @@
         <File Id="MSBuild.ps1" Name="MSBuild.ps1"/>
       </Component>
       
+    </DirectoryRef>
+
+    <DirectoryRef Id="SCRIPTS" FileSource ="..\PowerEnv\Scripts\" DiskId='1'>
+      <Component Id="AAComponent" Guid="4EED7FEF-5895-4542-8960-16A366845BB8" KeyPath="yes">
+        <File Id="AABuild.ps1" Name="AABuild.ps1"/>
+        <File Id="AABuildDebugX64.ps1" Name="AABuildDebugX64.ps1"/>
+        <File Id="AABuildReleaseX64.ps1" Name="AABuildReleaseX64.ps1"/>
+        <File Id="AABuildReleaseDebugX64.ps1" Name="AABuildReleaseDebugX64.ps1"/>
+      </Component>
     </DirectoryRef>
 
   </Fragment>
