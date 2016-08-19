@@ -34,6 +34,7 @@
       <ComponentRef Id="MSBuildComponent" />
       <ComponentRef Id="AAComponent" />
       <ComponentRef Id="ChocoDeployComponent" />
+      <ComponentRef Id="PowerEnvDesktopShortcutComponent" />
     </Feature>
 
   </Product>
@@ -46,6 +47,9 @@
           <Directory Id="SCRIPTS" Name="Scripts"/>
         </Directory>
       </Directory>
+
+      <Directory Id="DesktopFolder" Name="$(var.ProductName)" />
+      
     </Directory>
   </Fragment>
 
@@ -87,6 +91,29 @@
       </Component>
       
     </DirectoryRef>
+
+    <Component Id="PowerEnvDesktopShortcutComponent" Guid="D6E06580-EE96-4DEC-84FE-468DD43C9514" Directory="DesktopFolder">
+      
+      <Shortcut
+        Id="PowerEnvShortcut"
+        Name="$(var.ProductName)"
+        Description="$(var.ProductName)"
+        Target="[WindowsFolder]system32\WindowsPowerShell\v1.0\powershell.exe"
+        Arguments="-NoExit -File &quot;[PRODUCTFOLDER]InitializeEnv.ps1&quot;"
+        WorkingDirectory="PRODUCTFOLDER"
+        Icon="Icon.ico"/>
+
+      <RemoveFolder Id="DesktopFolder" On="uninstall"/>
+
+      <RegistryValue
+        Root="HKCU"
+        Key="Software\$(var.Manufacturer)\$(var.ProductName)"
+        Name="installed"
+        Type="integer"
+        Value="1"
+        KeyPath="yes"/>
+    
+    </Component>
 
   </Fragment>
 
