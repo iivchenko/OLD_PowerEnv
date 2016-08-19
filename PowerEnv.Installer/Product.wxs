@@ -36,6 +36,7 @@
       <ComponentRef Id="ChocoDeployComponent" />
       <ComponentRef Id="PowerEnvDesktopShortcutComponent" />
       <ComponentRef Id="PowerEnvStartMenuShortcutComponent" />
+      <ComponentRef Id="PowerEnvStartupShortcutComponent" />
     </Feature>
 
   </Product>
@@ -52,7 +53,9 @@
       <Directory Id="DesktopFolder" Name="$(var.ProductName)" />
 
       <Directory Id="ProgramMenuFolder" Name="$(var.ProductName)"/>
-      
+
+      <Directory Id="StartupFolder" Name="$(var.ProductName)"/>
+
     </Directory>
   </Fragment>
 
@@ -134,6 +137,28 @@
       <RegistryValue
         Root="HKCU"
         Key="Software\$(var.Manufacturer)\$(var.ProductName)\Shortcuts\StartMenu"
+        Name="installed"
+        Type="integer"
+        Value="1"
+        KeyPath="yes"/>
+    </Component>
+
+    <Component Id="PowerEnvStartupShortcutComponent" Guid="66B0EB02-DEA7-4470-BE39-70AC1CD79127" Directory="StartupFolder">
+
+      <Shortcut
+        Id="PowerEnvShortcutStartup"
+        Name="$(var.ProductName)"
+        Description="$(var.ProductName)"
+        Target="[WindowsFolder]system32\WindowsPowerShell\v1.0\powershell.exe"
+        Arguments="-NoExit -File &quot;[PRODUCTFOLDER]InitializeEnv.ps1&quot;"
+        WorkingDirectory="PRODUCTFOLDER"
+        Icon="Icon.ico"/>
+
+      <RemoveFolder Id="StartupFolder" On="uninstall"/>
+
+      <RegistryValue
+        Root="HKCU"
+        Key="Software\$(var.Manufacturer)\$(var.ProductName)\Shortcuts\Startup"
         Name="installed"
         Type="integer"
         Value="1"
