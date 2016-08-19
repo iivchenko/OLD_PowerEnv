@@ -133,13 +133,13 @@
 
       <RegistryValue
         Root="HKCU"
-        Key="Software\Microsoft\$(var.ProductName)"
+        Key="Software\$(var.Manufacturer)\$(var.ProductName)\Shortcuts\StartMenu"
         Name="installed"
         Type="integer"
         Value="1"
         KeyPath="yes"/>
     </Component>
-
+    
   </Fragment>
 
 </Wix>
