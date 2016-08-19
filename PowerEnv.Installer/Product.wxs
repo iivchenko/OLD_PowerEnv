@@ -37,6 +37,7 @@
       <ComponentRef Id="PowerEnvDesktopShortcutComponent" />
       <ComponentRef Id="PowerEnvStartMenuShortcutComponent" />
       <ComponentRef Id="PowerEnvStartupShortcutComponent" />
+      <ComponentRef Id="PowerEnvConsoleSetupComponent" />
     </Feature>
 
   </Product>
@@ -163,6 +164,26 @@
         Type="integer"
         Value="1"
         KeyPath="yes"/>
+    </Component>
+
+    <Component Id="PowerEnvConsoleSetupComponent" Guid="731DC699-96AC-47DD-BC99-664C9396880D" Directory="PRODUCTFOLDER">
+
+      <!-- Configure console view (Fonts, colors etc.) as standard view of the PowerShell console -->
+      <RegistryKey
+        Root="HKCU"
+        Key="Console\$(var.ProductName)"
+        Action="createAndRemoveOnUninstall">
+        <RegistryValue Type="integer" Name="ColorTable05" Value="5645313"/>
+        <RegistryValue Type="integer" Name="ColorTable06" Value="15789550"/>
+        <RegistryValue Type="string" Name="FaceName" Value="Lucida Console"/>
+        <RegistryValue Type="integer" Name="FontFamily" Value="54"/>
+        <RegistryValue Type="integer" Name="FontWeight" Value="400"/>
+        <RegistryValue Type="integer" Name="PopupColors" Value="243"/>
+        <RegistryValue Type="integer" Name="QuickEdit" Value="1"/>
+        <RegistryValue Type="integer" Name="ScreenBufferSize" Value="196608120"/>
+        <RegistryValue Type="integer" Name="ScreenColors" Value="86"/>
+        <RegistryValue Type="integer" Name="WindowSize" Value="3276920"/>
+      </RegistryKey>
     </Component>
     
   </Fragment>
