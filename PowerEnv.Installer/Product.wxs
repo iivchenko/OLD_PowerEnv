@@ -110,7 +110,7 @@
 
       <RegistryValue
         Root="HKCU"
-        Key="Software\$(var.Manufacturer)\$(var.ProductName)"
+        Key="Software\$(var.Manufacturer)\$(var.ProductName)\Shortcuts\Desktop"
         Name="installed"
         Type="integer"
         Value="1"
