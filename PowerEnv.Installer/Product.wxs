@@ -20,6 +20,8 @@
     <MediaTemplate EmbedCab="yes"/>
 
     <Icon Id="Icon.ico" SourceFile="Images\Icon.ico"/>
+    <WixVariable Id="WixUIBannerBmp" Value="Images\Top.bmp" />
+    <WixVariable Id="WixUIDialogBmp" Value="Images\Background.bmp" />
 
     <Property Id="ARPPRODUCTICON" Value="Icon.ico" />
 
