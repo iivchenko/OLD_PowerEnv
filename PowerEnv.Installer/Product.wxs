@@ -23,6 +23,8 @@
 
     <Property Id="ARPPRODUCTICON" Value="Icon.ico" />
 
+    <UIRef Id="WixUI_Mondo_Modified"/>
+
     <Feature Id="PowerEnvFeature"
              Title="Install everything"
              Description="Installs all powershell functions, scripts, modules etc."
@@ -186,6 +188,38 @@
       </RegistryKey>
     </Component>
     
+  </Fragment>
+  
+  <Fragment>
+    
+    <UI Id="WixUI_Mondo_Modified">
+      
+      <TextStyle Id="WixUI_Font_Normal" FaceName="Tahoma" Size="8" />
+      <TextStyle Id="WixUI_Font_Bigger" FaceName="Tahoma" Size="12" />
+      <TextStyle Id="WixUI_Font_Title" FaceName="Tahoma" Size="9" Bold="yes" />
+
+      <Property Id="DefaultUIFont" Value="WixUI_Font_Normal" />
+      <Property Id="WixUI_Mode" Value="Mondo" />
+
+      <DialogRef Id="ErrorDlg" />
+      <DialogRef Id="FatalError" />
+      <DialogRef Id="FilesInUse" />
+      <DialogRef Id="MsiRMFilesInUse" />
+      <DialogRef Id="PrepareDlg" />
+      <DialogRef Id="ProgressDlg" />
+      <DialogRef Id="ResumeDlg" />
+      <DialogRef Id="UserExit" />
+
+      <Publish Dialog="ExitDialog" Control="Finish" Event="EndDialog" Value="Return" Order="999">1</Publish>
+
+      <Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="VerifyReadyDlg">NOT Installed AND NOT PATCH</Publish>
+      
+      <Publish Dialog="VerifyReadyDlg" Control="Back" Event="NewDialog" Value="WelcomeDlg" Order="2">1</Publish>
+      
+    </UI>
+
+    <UIRef Id="WixUI_Common" />
+  
   </Fragment>
 
 </Wix>
