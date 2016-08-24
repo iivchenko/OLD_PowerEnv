@@ -30,22 +30,42 @@
     <UIRef Id="WixUI_Mondo_Modified"/>
 
     <Feature Id="PowerEnvFeature"
-             Title="Install everything"
+             Title="PowerEnv"
              Description="Installs all powershell functions, scripts, modules etc."
              Level="1"
              ConfigurableDirectory="PRODUCTFOLDER">
       <ComponentRef Id="EnvComponent" />
       <ComponentRef Id="InitializeEnvComponent" />
-      <ComponentRef Id="GitComponent" />
-      <ComponentRef Id="MSBuildComponent" />
-      <ComponentRef Id="AAComponent" />
-      <ComponentRef Id="ChocoDeployComponent" />
+      <ComponentRef Id="PowerEnvConsoleSetupComponent" />
       <ComponentRef Id="PowerEnvDesktopShortcutComponent" />
       <ComponentRef Id="PowerEnvStartMenuShortcutComponent" />
       <ComponentRef Id="PowerEnvStartupShortcutComponent" />
-      <ComponentRef Id="PowerEnvConsoleSetupComponent" />
+      
+      <Feature Id="GitFeature"
+               Title="Git"
+               Description="Git functions and scripts."
+               Level="1"
+               ConfigurableDirectory="PRODUCTFOLDER">
+        <ComponentRef Id="GitComponent" />
+      </Feature>
+      
+      <Feature Id="AppAssureFeature"
+               Title="AppAssure"
+               Description="AppAssure functions and scripts."
+               Level="1"
+               ConfigurableDirectory="PRODUCTFOLDER">
+        <ComponentRef Id="MSBuildComponent" />
+        <ComponentRef Id="AAComponent" />
+      </Feature>
+      
+      <Feature Id="ChocoFeature"
+               Title="Choco"
+               Description="Choco functions and scripts."
+               Level="1"
+               ConfigurableDirectory="PRODUCTFOLDER">
+        <ComponentRef Id="ChocoDeployComponent" />
+      </Feature>
     </Feature>
-
   </Product>
 
   <Fragment>
