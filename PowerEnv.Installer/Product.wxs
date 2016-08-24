@@ -36,10 +36,6 @@
              ConfigurableDirectory="PRODUCTFOLDER">
       <ComponentRef Id="EnvComponent" />
       <ComponentRef Id="InitializeEnvComponent" />
-      <ComponentRef Id="PowerEnvConsoleSetupComponent" />
-      <ComponentRef Id="PowerEnvDesktopShortcutComponent" />
-      <ComponentRef Id="PowerEnvStartMenuShortcutComponent" />
-      <ComponentRef Id="PowerEnvStartupShortcutComponent" />
       
       <Feature Id="GitFeature"
                Title="Git"
@@ -66,6 +62,41 @@
         <ComponentRef Id="ChocoDeployComponent" />
       </Feature>
     </Feature>
+    
+    <Feature Id="PowerEnvShortcutsFeature"
+             Title="Shortcuts"
+             Description="Install PowerEnv shortcuts."
+             Level="1"
+             ConfigurableDirectory="PRODUCTFOLDER">
+      
+      <ComponentRef Id="PowerEnvConsoleSetupComponent" />
+      
+      <Feature Id="PowerEnvStartMenuShortcutFeature"
+               Title="Start Menu Shortcut"
+               Description="Start Menu Shortcut."
+               Level="1"
+               ConfigurableDirectory="PRODUCTFOLDER">
+        <ComponentRef Id="PowerEnvStartMenuShortcutComponent" />
+      </Feature>
+      
+      <Feature Id="PowerEnvDesktopShortcutFeature"
+               Title="Desktop Shortcut"
+               Description="Desctop Shortcut."
+               Level="2"
+               ConfigurableDirectory="PRODUCTFOLDER">
+        <ComponentRef Id="PowerEnvDesktopShortcutComponent" />
+      </Feature>
+      
+       <Feature Id="PowerEnvStartupShortcutFeature"
+               Title="Startup Shortcut"
+               Description="Startup Shortcut."
+               Level="2"
+               ConfigurableDirectory="PRODUCTFOLDER">
+        <ComponentRef Id="PowerEnvStartupShortcutComponent" />
+      </Feature>
+      
+    </Feature>
+    
   </Product>
 
   <Fragment>
