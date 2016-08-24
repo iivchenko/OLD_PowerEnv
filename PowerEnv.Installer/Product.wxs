@@ -2,7 +2,7 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
 
   <?define ProductName="PowerEnv" ?>
-  <?define ProductVersion="1.0.0.0" ?>
+  <?define ProductVersion="0.6" ?>
   <?define ProductCode="FC0D9C67-DE9C-40D3-892F-57CF5EA89BD6"?>
   <?define UpgradeCode="0796F069-E912-4156-82C9-422D7848175D"?>
   <?define Manufacturer="Shogun"?>
