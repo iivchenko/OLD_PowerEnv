@@ -6,6 +6,8 @@
   <?define ProductCode="FC0D9C67-DE9C-40D3-892F-57CF5EA89BD6"?>
   <?define UpgradeCode="0796F069-E912-4156-82C9-422D7848175D"?>
   <?define Manufacturer="Shogun"?>
+  
+  <?define Binaries="..\bin\PowerEnv"?>
 
   <Product
     Id="$(var.ProductCode)"
@@ -121,13 +123,13 @@
 
   <Fragment>
 
-    <DirectoryRef Id="PRODUCTFOLDER" FileSource ="..\PowerEnv\" DiskId='1'>
+    <DirectoryRef Id="PRODUCTFOLDER" FileSource ="$(var.Binaries)" DiskId='1'>
       <Component Id="InitializeEnvComponent" Guid="A64822F4-12AC-4208-8C7A-4D588209DA93" KeyPath="yes">
         <File Id="InitializeEnv.ps1" Name="InitializeEnv.ps1"/>
       </Component>
     </DirectoryRef>
 
-    <DirectoryRef Id="FUNCTIONS" FileSource ="..\PowerEnv\Functions\" DiskId='1'>
+    <DirectoryRef Id="FUNCTIONS" FileSource ="$(var.Binaries)\Functions\" DiskId='1'>
       
       <Component Id="EnvComponent" Guid="F5193FA4-BC3D-4D60-843E-C9A4EFA163A9" KeyPath="yes">
         <File Id="Env.ps1" Name="Env.ps1"/>
@@ -143,7 +145,7 @@
       
     </DirectoryRef>
 
-    <DirectoryRef Id="SCRIPTS" FileSource ="..\PowerEnv\Scripts\" DiskId='1'>
+    <DirectoryRef Id="SCRIPTS" FileSource ="$(var.Binaries)\Scripts\" DiskId='1'>
       
       <Component Id="AAComponent" Guid="4EED7FEF-5895-4542-8960-16A366845BB8" KeyPath="yes">
         <File Id="AABuild.ps1" Name="AABuild.ps1"/>
