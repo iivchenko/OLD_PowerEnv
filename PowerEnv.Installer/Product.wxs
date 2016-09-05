@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+<Wix
+  xmlns="http://schemas.microsoft.com/wix/2006/wi"
+  xmlns:iis='http://schemas.microsoft.com/wix/IIsExtension'>
 
   <?define ProductName="PowerEnv" ?>
   <?define ProductVersion="0.6" ?>
@@ -18,11 +20,11 @@
     UpgradeCode="$(var.UpgradeCode)">
 
     <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
-    <MajorUpgrade 
+    <MajorUpgrade
       Schedule="afterInstallInitialize"
       DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
     <MediaTemplate EmbedCab="yes"/>
-    
+
     <WixVariable Id="WixUILicenseRtf" Value="LICENSE.rtf" />
 
     <Icon Id="Icon.ico" SourceFile="Images\Icon.ico"/>
@@ -33,14 +35,18 @@
 
     <UIRef Id="WixUI_Mondo_Modified"/>
 
+    <Binary Id="CertificateStream"
+            SourceFile="..\Certificates\PowerEnvRoot.cer" />
+    
     <Feature Id="PowerEnvFeature"
              Title="PowerEnv"
              Description="Installs all powershell functions, scripts, modules etc."
              Level="1"
              ConfigurableDirectory="PRODUCTFOLDER">
+      <ComponentRef Id="CertificateComponent"/>
       <ComponentRef Id="EnvComponent" />
       <ComponentRef Id="InitializeEnvComponent" />
-      
+
       <Feature Id="GitFeature"
                Title="Git"
                Description="Git functions and scripts."
@@ -48,7 +54,7 @@
                ConfigurableDirectory="PRODUCTFOLDER">
         <ComponentRef Id="GitComponent" />
       </Feature>
-      
+
       <Feature Id="AppAssureFeature"
                Title="AppAssure"
                Description="AppAssure functions and scripts."
@@ -57,7 +63,7 @@
         <ComponentRef Id="MSBuildComponent" />
         <ComponentRef Id="AAComponent" />
       </Feature>
-      
+
       <Feature Id="ChocoFeature"
                Title="Choco"
                Description="Choco functions and scripts."
@@ -66,15 +72,15 @@
         <ComponentRef Id="ChocoDeployComponent" />
       </Feature>
     </Feature>
-    
+
     <Feature Id="PowerEnvShortcutsFeature"
              Title="Shortcuts"
              Description="Install PowerEnv shortcuts."
              Level="1"
              ConfigurableDirectory="PRODUCTFOLDER">
-      
+
       <ComponentRef Id="PowerEnvConsoleSetupComponent" />
-      
+
       <Feature Id="PowerEnvStartMenuShortcutFeature"
                Title="Start Menu Shortcut"
                Description="Start Menu Shortcut."
@@ -82,7 +88,7 @@
                ConfigurableDirectory="PRODUCTFOLDER">
         <ComponentRef Id="PowerEnvStartMenuShortcutComponent" />
       </Feature>
-      
+
       <Feature Id="PowerEnvDesktopShortcutFeature"
                Title="Desktop Shortcut"
                Description="Desctop Shortcut."
@@ -90,17 +96,17 @@
                ConfigurableDirectory="PRODUCTFOLDER">
         <ComponentRef Id="PowerEnvDesktopShortcutComponent" />
       </Feature>
-      
-       <Feature Id="PowerEnvStartupShortcutFeature"
-               Title="Startup Shortcut"
-               Description="Startup Shortcut."
-               Level="2"
-               ConfigurableDirectory="PRODUCTFOLDER">
+
+      <Feature Id="PowerEnvStartupShortcutFeature"
+              Title="Startup Shortcut"
+              Description="Startup Shortcut."
+              Level="2"
+              ConfigurableDirectory="PRODUCTFOLDER">
         <ComponentRef Id="PowerEnvStartupShortcutComponent" />
       </Feature>
-      
+
     </Feature>
-    
+
   </Product>
 
   <Fragment>
@@ -124,13 +130,36 @@
   <Fragment>
 
     <DirectoryRef Id="PRODUCTFOLDER" FileSource ="$(var.Binaries)" DiskId='1'>
+      <Component Id="CertificateComponent" Guid="9ED9A040-F34F-4D7C-BE6B-D56D39157AAC" KeyPath="yes">
+
+        <iis:Certificate
+          Id="CertificateRoot"
+          Name="PowerEnv Certificate"
+          StoreName="root"
+          StoreLocation="currentUser"
+          Request="no"
+          BinaryKey="CertificateStream"
+          Overwrite="yes"/>
+
+        <iis:Certificate
+            Id="CertificateCA"
+            Name="PowerEnv Certificate"
+            StoreName="ca"
+            StoreLocation="currentUser"
+            Request="no"
+            BinaryKey="CertificateStream"
+            Overwrite="yes"/>
+
+      </Component>
+
       <Component Id="InitializeEnvComponent" Guid="A64822F4-12AC-4208-8C7A-4D588209DA93" KeyPath="yes">
         <File Id="InitializeEnv.ps1" Name="InitializeEnv.ps1"/>
       </Component>
+
     </DirectoryRef>
 
     <DirectoryRef Id="FUNCTIONS" FileSource ="$(var.Binaries)\Functions\" DiskId='1'>
-      
+
       <Component Id="EnvComponent" Guid="F5193FA4-BC3D-4D60-843E-C9A4EFA163A9" KeyPath="yes">
         <File Id="Env.ps1" Name="Env.ps1"/>
       </Component>
@@ -142,11 +171,11 @@
       <Component Id="MSBuildComponent" Guid="E479C8D5-8742-4635-8302-C614382EB6A8" KeyPath="yes">
         <File Id="MSBuild.ps1" Name="MSBuild.ps1"/>
       </Component>
-      
+
     </DirectoryRef>
 
     <DirectoryRef Id="SCRIPTS" FileSource ="$(var.Binaries)\Scripts\" DiskId='1'>
-      
+
       <Component Id="AAComponent" Guid="4EED7FEF-5895-4542-8960-16A366845BB8" KeyPath="yes">
         <File Id="AABuild.ps1" Name="AABuild.ps1"/>
         <File Id="AABuildDebugX64.ps1" Name="AABuildDebugX64.ps1"/>
@@ -157,11 +186,11 @@
       <Component Id="ChocoDeployComponent" Guid="37C7EE52-5D7D-4561-95E0-94664A9FA2F1" KeyPath="yes">
         <File Id="ChocoDeploy.ps1" Name="ChocoDeploy.ps1"/>
       </Component>
-      
+
     </DirectoryRef>
 
     <Component Id="PowerEnvDesktopShortcutComponent" Guid="D6E06580-EE96-4DEC-84FE-468DD43C9514" Directory="DesktopFolder">
-      
+
       <Shortcut
         Id="PowerEnvShortcut"
         Name="$(var.ProductName)"
@@ -180,7 +209,7 @@
         Type="integer"
         Value="1"
         KeyPath="yes"/>
-    
+
     </Component>
 
     <Component Id="PowerEnvStartMenuShortcutComponent" Guid="9605031B-CC49-423F-ABC5-08B1E379B17F" Directory="ProgramMenuFolder">
@@ -246,13 +275,13 @@
         <RegistryValue Type="integer" Name="WindowSize" Value="3276920"/>
       </RegistryKey>
     </Component>
-    
+
   </Fragment>
-  
+
   <Fragment>
-    
+
     <UI Id="WixUI_Mondo_Modified">
-      
+
       <TextStyle Id="WixUI_Font_Normal" FaceName="Tahoma" Size="8" />
       <TextStyle Id="WixUI_Font_Bigger" FaceName="Tahoma" Size="12" />
       <TextStyle Id="WixUI_Font_Title" FaceName="Tahoma" Size="9" Bold="yes" />
@@ -273,27 +302,27 @@
 
       <Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="LicenseAgreementDlg">NOT Installed AND NOT PATCH</Publish>
       <Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="VerifyReadyDlg">Installed AND PATCH</Publish>
-      
+
       <Publish Dialog="LicenseAgreementDlg" Control="Back" Event="NewDialog" Value="WelcomeDlg">1</Publish>
       <Publish Dialog="LicenseAgreementDlg" Control="Next" Event="NewDialog" Value="CustomizeDlg" Order="2">LicenseAccepted = "1"</Publish>
-      
+
       <Publish Dialog="CustomizeDlg" Control="Back" Event="NewDialog" Value="MaintenanceTypeDlg" Order="1">WixUI_InstallMode = "Change"</Publish>
       <Publish Dialog="CustomizeDlg" Control="Back" Event="NewDialog" Value="LicenseAgreementDlg" Order="1">1</Publish>
       <Publish Dialog="CustomizeDlg" Control="Next" Event="NewDialog" Value="VerifyReadyDlg">1</Publish>
-      
+
       <Publish Dialog="VerifyReadyDlg" Control="Back" Event="NewDialog" Value="CustomizeDlg" Order="2">1</Publish>
       <Publish Dialog="VerifyReadyDlg" Control="Back" Event="NewDialog" Value="MaintenanceTypeDlg" Order="4">WixUI_InstallMode = "Repair" OR WixUI_InstallMode = "Remove"</Publish>
-      
+
       <Publish Dialog="MaintenanceWelcomeDlg" Control="Next" Event="NewDialog" Value="MaintenanceTypeDlg">1</Publish>
       <Publish Dialog="MaintenanceTypeDlg" Control="ChangeButton" Event="NewDialog" Value="CustomizeDlg">1</Publish>
       <Publish Dialog="MaintenanceTypeDlg" Control="RepairButton" Event="NewDialog" Value="VerifyReadyDlg">1</Publish>
       <Publish Dialog="MaintenanceTypeDlg" Control="RemoveButton" Event="NewDialog" Value="VerifyReadyDlg">1</Publish>
       <Publish Dialog="MaintenanceTypeDlg" Control="Back" Event="NewDialog" Value="MaintenanceWelcomeDlg">1</Publish>
-      
+
     </UI>
 
     <UIRef Id="WixUI_Common" />
-  
+
   </Fragment>
 
 </Wix>
