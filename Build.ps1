@@ -2,7 +2,7 @@
 (
 	[switch]$Sign,
         
-    [switch]$Build
+	[switch]$Build
 )
 
 $source = ".\PowerEnv"
@@ -102,7 +102,7 @@ function Sign()
 }
 
 #########################################################
-# 					Actually Script						#
+#                  Actually Script                      #
 #########################################################
 
 # Prepare Environment
