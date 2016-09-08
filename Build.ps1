@@ -1,55 +1,124 @@
 ﻿Param
 (
-    [switch]$Sign,
-    
-    [Parameter(ParameterSetName='Build', Mandatory=$true)]
-    [string]$Configuration="Release",
-
-    [Parameter(ParameterSetName='NoBuild')]
-    [switch]$NoBuild
+	[switch]$Sign,
+        
+	[switch]$Build
 )
 
-$source = ".\PowerEnv\"
+$source = ".\PowerEnv"
 $binaries = ".\bin"
-$signtool = "C:\Program Files (x86)\Microsoft SDKs\Windows\v7.1A\Bin\signtool.exe"
-$msb = "C:\Program Files (x86)\MSBuild\12.0\Bin\MSBuild.exe"
+$packages = ".\packages"
+$signtool = "$packages\signtool.exe"
 
-if (-not(Test-Path -Path $source -PathType Container))
+# msi 
+$installePath = ".\PowerEnv.Installer"
+$installeProj = "$installePath\PowerEnv.wxs"
+$installObj = "$binaries\Installer\PowerEnv.wixobj"
+$msi = "$binaries\Installer\PowerEnv.msi"
+$wix = "$packages\WiX.3.10.3"
+$candle = "$wix\tools\candle.exe"
+$light = "$wix\tools\light.exe"
+
+# nuget
+$nuget = "$packages\nuget.exe"
+$nugetLink = "https://dist.nuget.org/win-x86-commandline/latest/nuget.exe"
+
+function Setup()
 {
-    Write-Error "$source path is missing!!"
-    return
+	Write-Host
+	Write-Host "Setup" -ForegroundColor Green
+	
+	if (-not(Test-Path -Path $source -PathType Container))
+	{
+		Write-Error "$source path is missing!!"
+		return
+	}
+
+	if (Test-Path -Path $binaries -PathType Container)
+	{
+		Remove-Item -Path $binaries -Recurse -Force
+	}
+
+	New-Item -Path $binaries -ItemType Directory
+	
+	if (-not(Test-Path -Path $packages -PathType Container))
+	{
+		New-Item -Name $packages -Item Directory
+	}
+	
+	if(-not(Test-Path -Path $nuget -PathType Leaf))
+	{
+		Import-Module BitsTransfer
+		Start-BitsTransfer -Source $nugetLink -Destination $nuget -Verbose
+	}
+
+	& $nuget restore packages.config -PackagesDirectory packages
+	
+	if ($LASTEXITCODE -ne 0)
+	{
+		Write-Host "Setup Fail" -ForegroundColor Red -BackgroundColor Black
+	}
+	else
+	{
+		Write-Host "Setup Succeded" -ForegroundColor Green
+	}
 }
 
-if (Test-Path -Path $binaries -PathType Container)
+function BuildMsi()
 {
-    Remove-Item -Path $binaries -Recurse -Force
+	Write-Host
+	Write-Host "Building installer" -ForegroundColor Green
+	
+	& $candle $installeProj -ext WixIIsExtension.dll -ext WixUIExtension.dll -out $installObj
+	& $light $installObj -ext WixIIsExtension.dll -ext WixUIExtension.dll -b $installePath -out $msi
+	
+	if ($LASTEXITCODE -ne 0)
+	{
+		Write-Host "Installer build Fail" -ForegroundColor Red -BackgroundColor Black
+	}
+	else
+	{
+		Write-Host "Installer build Succeded" -ForegroundColor Green
+	}
 }
 
-New-Item -Path $binaries -ItemType Directory | Out-Null
+function Sign()
+{
+	Write-Host
+	Write-Host "Signing scripts" -ForegroundColor Green
 
+	$list = Get-ChildItem -Path $binaries -Recurse -File -Include *.ps1 | % { $_.FullName }
+
+    & $signtool sign /v /f .\Certificates\PowerEnv.pfx $list
+	
+	if ($LASTEXITCODE -ne 0)
+	{
+		Write-Host "Sign Fail" -ForegroundColor Red -BackgroundColor Black
+	}
+	else
+	{
+		Write-Host "Sign Succeded" -ForegroundColor Green
+	}	
+}
+
+#########################################################
+#                  Actually Script                      #
+#########################################################
+
+# Prepare Environment
+Setup
+
+# Copy Scripts
 Copy-Item -Path $source -Destination $binaries -Recurse -Force
 
 # Sign scripts
 if ($Sign)
 {
-    $list = Get-ChildItem -Path $binaries -Recurse -File -Include *.ps1 | % { $_.FullName }
-
-    & $signtool sign /v /f .\Certificates\PowerEnv.pfx $list
+	Sign
 }
 
-# Build installer
-if (-not($NoBuild))
+# Build MSI
+if ($Build)
 {
-    Write-Host "Building installer" -ForegroundColor Green
-	
-    & $msb .\PowerEnv.sln /nologo /m /consoleloggerparameters:ErrorsOnly /verbosity:q /t:Rebuild /p:Configuration=$Configuration /property:Platform=x86
-	
-    if ($LASTEXITCODE -ne 0)
-    {
-	    Write-Host "Installer build Fail" -ForegroundColor Red -BackgroundColor Black
-    }
-    else
-    {
-	    Write-Host "Installer build Succeded" -ForegroundColor Green
-    }
+	BuildMsi
 }
