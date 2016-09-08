@@ -19,8 +19,9 @@ Get-ChildItem "$PSScriptRoot\Functions" | % { & $_.FullName }
 # Set useful aliaces.
 # But first set notepad++ binaries path manualy. Example: Env-Write -Property NotepadPlusPath -Value "C:\Program Files (x86)\Notepad++\notepad++.exe"
 # Set-Alias -Name edit -Scope Global -Value (Env-Read NotepadPlusPath)
+# Set-Alias -Name win -Scope Global -Value "explorer.exe"
 
-# Set Executable paths manuly
+# Set Executable paths manualy
 # Git: Env-Write -Property GitExePath -Value "C:\Program Files\Git\bin\git.exe"
 # MSBuild: Env-Write -Property MSBuildExePath -Value "C:\Program Files (x86)\MSBuild\12.0\Bin\MSBuild.exe"
 
