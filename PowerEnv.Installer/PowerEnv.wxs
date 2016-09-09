@@ -71,6 +71,14 @@
                ConfigurableDirectory="PRODUCTFOLDER">
         <ComponentRef Id="ChocoComponent" />
       </Feature>
+	  
+	  <Feature Id="RdpFeature"
+               Title="RDP"
+               Description="Enables remote desktop."
+               Level="1"
+               ConfigurableDirectory="PRODUCTFOLDER">
+        <ComponentRef Id="RdpComponent" />
+      </Feature>
     </Feature>
 
     <Feature Id="PowerEnvShortcutsFeature"
@@ -185,6 +193,10 @@
         <File Id="AABuildDebugX64.ps1" Name="AABuildDebugX64.ps1"/>
         <File Id="AABuildReleaseX64.ps1" Name="AABuildReleaseX64.ps1"/>
         <File Id="AABuildReleaseDebugX64.ps1" Name="AABuildReleaseDebugX64.ps1"/>
+      </Component>
+	  
+	  <Component Id="RdpComponent" Guid="F52B2C79-B325-4587-965D-10500EFE2D83" KeyPath="yes">
+        <File Id="RdpEnable.ps1" Name="RdpEnable.ps1"/>
       </Component>
 
     </DirectoryRef>
