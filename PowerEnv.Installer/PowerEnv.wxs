@@ -69,7 +69,7 @@
                Description="Choco functions and scripts."
                Level="1"
                ConfigurableDirectory="PRODUCTFOLDER">
-        <ComponentRef Id="ChocoDeployComponent" />
+        <ComponentRef Id="ChocoComponent" />
       </Feature>
     </Feature>
 
@@ -159,7 +159,11 @@
     </DirectoryRef>
 
     <DirectoryRef Id="FUNCTIONS" FileSource ="$(var.Binaries)\Functions\" DiskId='1'>
-
+	
+	  <Component Id="ChocoComponent" Guid="37C7EE52-5D7D-4561-95E0-94664A9FA2F1" KeyPath="yes">
+		<File Id="Choco.ps1" Name="Choco.ps1"/>
+	  </Component>
+	  
       <Component Id="EnvComponent" Guid="F5193FA4-BC3D-4D60-843E-C9A4EFA163A9" KeyPath="yes">
         <File Id="Env.ps1" Name="Env.ps1"/>
       </Component>
@@ -181,10 +185,6 @@
         <File Id="AABuildDebugX64.ps1" Name="AABuildDebugX64.ps1"/>
         <File Id="AABuildReleaseX64.ps1" Name="AABuildReleaseX64.ps1"/>
         <File Id="AABuildReleaseDebugX64.ps1" Name="AABuildReleaseDebugX64.ps1"/>
-      </Component>
-
-      <Component Id="ChocoDeployComponent" Guid="37C7EE52-5D7D-4561-95E0-94664A9FA2F1" KeyPath="yes">
-        <File Id="ChocoDeploy.ps1" Name="ChocoDeploy.ps1"/>
       </Component>
 
     </DirectoryRef>
