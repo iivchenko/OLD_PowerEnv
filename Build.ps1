@@ -46,12 +46,6 @@ function Setup()
 		New-Item -Name $packages -Item Directory
 	}
 	
-	if(-not(Test-Path -Path $nuget -PathType Leaf))
-	{
-		Import-Module BitsTransfer
-		Start-BitsTransfer -Source $nugetLink -Destination $nuget -Verbose
-	}
-
 	& $nuget restore packages.config -PackagesDirectory packages
 	
 	if ($LASTEXITCODE -ne 0)
